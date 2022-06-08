@@ -23,9 +23,14 @@ func main() {
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/api/v1/lookup/{urlCode}", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set(content, html)
-		w.Write([]byte("<h1>Hello world</h1>"))
+		w.Write([]byte(chi.URLParam(r, "urlCode")))
+	})
+
+	r.Get("/api/v1/shorten/{url}", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set(content, html)
+		w.Write([]byte(chi.URLParam(r, "url")))
 	})
 
 	fmt.Println("serving ...")
